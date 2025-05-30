@@ -1,0 +1,44 @@
+.contact-section {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 2em;
+  margin: 2em auto;
+  max-width: 700px;
+}
+.contact-section h2 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+.contact-content {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2em;
+  align-items: flex-start;
+  justify-content: center;
+}
+.contact-content .contact-info {
+  min-width: 180px;
+  flex: 1;
+}
+.contact-content iframe {
+  min-width: 200px;
+  min-height: 180px;
+  flex: 1;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Responsivo: apila en móvil */
+@media (max-width: 700px) {
+  .contact-content {
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+  }
+  .contact-content .contact-info,
+  .contact-content iframe {
+    width: 100%;
+    min-width: unset;
+  }
+}
