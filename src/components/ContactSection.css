@@ -1,0 +1,101 @@
+.contact-section {
+  background: #f0f4fa; /* Color más suave para diferenciar el container */
+  width: 100%;
+  margin: 2rem 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0001;
+  padding: 2rem 0;
+}
+
+.contact-info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.contact-info > div {
+  flex: 1;
+}
+
+.contact-section iframe {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  min-width: 250px;
+}
+.contact-info-row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.contact-details {
+  flex: 1 1 220px;
+  min-width: 220px;
+  font-size: 1.1rem;
+}
+
+.contact-map {
+  flex: 1 1 320px;
+  min-width: 280px;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #0001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contact-section {
+  background: #f0f4fa;
+  width: 100%;
+  margin: 2rem 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0001;
+  padding: 2rem 0;
+  /* Nuevo: centra el contenido */
+  display: flex;
+  justify-content: center;
+}
+
+.contact-info-row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  /* Nuevo: centra y limita el ancho */
+  margin: 0 auto;
+  max-width: 900px;
+  width: 100%;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+}
+
+.contact-details {
+  flex: 1 1 220px;
+  min-width: 220px;
+  font-size: 1.1rem;
+}
+
+.contact-map {
+  flex: 1 1 320px;
+  min-width: 280px;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #0001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Nuevo: separa del borde derecho */
+  margin-right: 1rem;
+}
+
+.contact-section iframe {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  min-width: 250px;
+}

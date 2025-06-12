@@ -1,0 +1,217 @@
+.cart-section {
+  background: #e3f2fd; /* Azul claro para diferenciar el carrito */
+  width: 100%;
+  margin: 2rem 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0001;
+  padding: 2rem 0;
+  border: 2px solid #1976d2;
+}
+
+.cart-title {
+  color: #1976d2;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.cart-table th,
+.cart-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.cart-table input[type="number"] {
+  width: 40px;
+  text-align: center;
+}
+
+.qty-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  padding: 0.3rem 0.8rem;
+  margin: 0 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.qty-btn:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.qty-value {
+  min-width: 24px;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.remove-btn {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  padding: 0.3rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.remove-btn:hover {
+  background: #e53935;
+}
+
+.clear-cart-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  margin-left: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.clear-cart-btn:hover {
+  background: #b71c1c;
+}
+
+.cart-total {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* SweetAlert2 modal button styles for cart */
+.swal-btn-dark {
+  background: #222 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 1.3rem !important;
+  padding: 0.4rem 1.2rem !important;
+  margin: 2px !important;
+  cursor: pointer !important;
+  transition: background 0.2s;
+  display: inline-block;
+}
+.swal-btn-dark:disabled {
+  background: #888 !important;
+  cursor: not-allowed !important;
+}
+.cart-modal-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cart-modal {
+  background: #e3f2fd;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0002;
+  padding: 2rem 1.5rem;
+  min-width: 340px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+}
+.cart-title {
+  color: #1976d2;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cart-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #1976d2;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+.cart-table th,
+.cart-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+}
+.qty-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  padding: 0.3rem 0.8rem;
+  margin: 0 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.qty-btn:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}
+.qty-value {
+  min-width: 24px;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.remove-btn {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  padding: 0.3rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.remove-btn:hover {
+  background: #e53935;
+}
+.clear-cart-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  margin-left: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.clear-cart-btn:hover {
+  background: #b71c1c;
+}
+.cart-total {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.cart-modal,
+.cart-section {
+  color: #222 !important;
+  background: #e3f2fd;
+}
+
+.cart-title {
+  color: #1976d2 !important;
+}
