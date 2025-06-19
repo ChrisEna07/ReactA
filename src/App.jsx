@@ -1,111 +1,105 @@
+import { getProducts, getCategories, getProductsByCategory } from './features/landing/services/fakestoreApi';
 import React, { useReducer, useEffect, useState } from "react";
-import Navbar from "./components/navbar";
-import Footer from "./components/footer";
-import Carousel from "./components/Carousel";
-import ProductList from "./components/ProductList";
-import Cart from "./components/Cart";
-import ContactSection from "./components/ContactSection";
-import ReviewForm from "./components/ReviewForm";
+import "./shared/styles/Navbar.css";
+import "./shared/styles/Footer.css";
+import "./shared/styles/Carousel.css";
+import './shared/styles/ProductList.css';
+import "./shared/styles/ContactSection.css";
+import "./shared/styles/Cart.css";
+import "./shared/styles/App.css";
+import Navbar from "./features/landing/components/Navbar";
+import Footer from "./features/landing/components/Footer";
+import Carousel from "./features/landing/components/Carousel";
+import ProductList from "./features/landing/components/ProductList";
+import Cart from "./features/landing/components/Cart";
+import ContactSection from "./features/landing/components/ContactSection";
+import ReviewForm from "./features/landing/components/ReviewForm";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ContactPage from "./pages/ContactPage";
-import "./App.css";
+import ContactPage from "./features/landing/components/ContactPage";
 
-const initialState = {
-  products: [],
-  cart: [],
-};
-
-function reducer(state, action) {
+// Reducer para el carrito
+function cartReducer(state, action) {
   switch (action.type) {
-    case "SET_PRODUCTS":
-      return { ...state, products: action.payload };
-    case "ADD_TO_CART":
-      const exists = state.cart.find((item) => item.id === action.payload.id);
+    case "ADD_TO_CART": {
+      const exists = state.find(item => item.id === action.payload.id);
       if (exists) {
-        return {
-          ...state,
-          cart: state.cart.map((item) =>
-            item.id === action.payload.id
-              ? { ...item, qty: item.qty + 1 }
-              : item
-          ),
-        };
-      }
-      return {
-        ...state,
-        cart: [...state.cart, { ...action.payload, qty: 1 }],
-      };
-    case "REMOVE_FROM_CART":
-      return {
-        ...state,
-        cart: state.cart.filter((item) => item.id !== action.payload),
-      };
-    case "INCREMENT_QTY":
-      return {
-        ...state,
-        cart: state.cart.map((item) =>
-          item.id === action.payload
+        return state.map(item =>
+          item.id === action.payload.id
             ? { ...item, qty: item.qty + 1 }
             : item
-        ),
-      };
+        );
+      }
+      return [...state, { ...action.payload, qty: 1 }];
+    }
+    case "INCREMENT_QTY":
+      return state.map(item =>
+        item.id === action.payload
+          ? { ...item, qty: item.qty + 1 }
+          : item
+      );
     case "DECREMENT_QTY":
-      return {
-        ...state,
-        cart: state.cart.map((item) =>
-          item.id === action.payload
-            ? { ...item, qty: Math.max(1, item.qty - 1) }
-            : item
-        ),
-      };
+      return state.map(item =>
+        item.id === action.payload && item.qty > 1
+          ? { ...item, qty: item.qty - 1 }
+          : item
+      );
+    case "REMOVE_FROM_CART":
+      return state.filter(item => item.id !== action.payload);
     case "CLEAR_CART":
-      return { ...state, cart: [] };
+      return [];
     default:
       return state;
   }
 }
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [cart, dispatch] = useReducer(cartReducer, []);
   const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => dispatch({ type: "SET_PRODUCTS", payload: data }));
+    getProducts().then(setProducts);
+    getCategories().then(setCategories);
   }, []);
+
+  const handleCategoryChange = (e) => {
+    const cat = e.target.value;
+    setSelectedCategory(cat);
+    if (cat) {
+      getProductsByCategory(cat).then(setProducts);
+    } else {
+      getProducts().then(setProducts);
+    }
+  };
 
   return (
     <Router>
-      <div className="App">
-        <Navbar
-          cartCount={state.cart.length}
-          onCartClick={() => setShowCart((prev) => !prev)}
-        />
-        <div className="main-container">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Carousel />
-                  <ProductList
-                    products={state.products}
-                    dispatch={dispatch}
-                    cart={state.cart}
-                  />
-                  {showCart && (
-                    <Cart cart={state.cart} dispatch={dispatch} onClose={() => setShowCart(false)} />
-                  )}
-                  <ReviewForm />
-                </>
-              }
-            />
-            <Route path="/contacto" element={<ContactPage />} />
-          </Routes>
+      <div className="app-container">
+        <Navbar onCartClick={() => setShowCart(true)} />
+        <Carousel />
+        <div className="main-content">
+          <h1>FakeStore Productos</h1>
+          <select value={selectedCategory} onChange={handleCategoryChange}>
+            <option value="">Todas las categorías</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+          <ProductList products={products} cart={cart} dispatch={dispatch} />
+
+          {showCart && (
+            <Cart cart={cart} dispatch={dispatch} onClose={() => setShowCart(false)} />
+          )}
+          <ContactSection />
+          <ReviewForm />
         </div>
         <Footer />
       </div>
+      <Routes>
+        <Route path="/contacto" element={<ContactPage />} />
+      </Routes>
     </Router>
   );
 }
