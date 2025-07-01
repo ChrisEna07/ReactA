@@ -14,10 +14,12 @@ import ProductList from "./features/landing/components/ProductList";
 import Cart from "./features/landing/components/Cart";
 import ContactSection from "./features/landing/components/ContactSection";
 import ReviewForm from "./features/landing/components/ReviewForm";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ContactPage from "./features/landing/components/ContactPage";
+import Login from './features/auth/components/login';
+import Register from './features/auth/components/Register';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
-// Reducer para el carrito
 function cartReducer(state, action) {
   switch (action.type) {
     case "ADD_TO_CART": {
@@ -58,6 +60,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [cart, dispatch] = useReducer(cartReducer, []);
   const [showCart, setShowCart] = useState(false);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     getProducts().then(setProducts);
@@ -74,31 +77,37 @@ function App() {
     }
   };
 
+  const HomePage = () => (
+    <div className="app-container">
+      <Navbar onCartClick={() => setShowCart(true)} />
+      <Carousel />
+      <div className="main-content">
+        <h1>FakeStore Productos</h1>
+        <select value={selectedCategory} onChange={handleCategoryChange}>
+          <option value="">Todas las categorías</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+        <ProductList products={products} cart={cart} dispatch={dispatch} />
+
+        {showCart && (
+          <Cart cart={cart} dispatch={dispatch} onClose={() => setShowCart(false)} />
+        )}
+        <ContactSection />
+        <ReviewForm />
+      </div>
+      <Footer />
+    </div>
+  );
+
   return (
     <Router>
-      <div className="app-container">
-        <Navbar onCartClick={() => setShowCart(true)} />
-        <Carousel />
-        <div className="main-content">
-          <h1>FakeStore Productos</h1>
-          <select value={selectedCategory} onChange={handleCategoryChange}>
-            <option value="">Todas las categorías</option>
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-          <ProductList products={products} cart={cart} dispatch={dispatch} />
-
-          {showCart && (
-            <Cart cart={cart} dispatch={dispatch} onClose={() => setShowCart(false)} />
-          )}
-          <ContactSection />
-          <ReviewForm />
-        </div>
-        <Footer />
-      </div>
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/contacto" element={<ContactPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );

@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../auth/slices/authSlice"; // Ajusta si la ruta es diferente
 import "../../../shared/styles/Navbar.css";
 
 const scrollToSection = (id) => {
@@ -11,6 +13,8 @@ const scrollToSection = (id) => {
 
 const Navbar = ({ cartCount, onCartClick }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   return (
     <nav className="navbar">
@@ -52,6 +56,18 @@ const Navbar = ({ cartCount, onCartClick }) => {
               </a>
             ) : (
               <Link to="/#opiniones">Opiniones</Link>
+            )}
+          </li>
+          <li>
+            {isAuthenticated ? (
+              <button
+                className="logout-button"
+                onClick={() => dispatch(logout())}
+              >
+                Logout
+              </button>
+            ) : (
+              <Link to="/login">Login</Link>
             )}
           </li>
         </ul>

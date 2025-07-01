@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
-import "../../../shared/styles/Carousel.css"; // Asegúrate de tener un archivo CSS para estilos
+import "../../../shared/styles/Carousel.css";
+
+// Importa las imágenes locales
+import ropa1 from "../../../assets/ropa1.jpeg";
+import ropa2 from "../../../assets/ropa2.jpeg";
+import ropa3 from "../../../assets/ropa3.avif";
+import Fndoo from "../../../assets/Fndoo.jpg";
 
 const images = [
-  "https://images.unsplash.com/photo-1511918984145-48de785d4c4e?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
+  Fndoo,
+  ropa1,
+  ropa2,
+  ropa3,
 ];
 
 const Carousel = () => {
@@ -17,7 +24,7 @@ const Carousel = () => {
 
   return (
     <div className="carousel">
-      <img src={images[idx]} alt="Carrusel Rafa Motos" />
+      <img src={images[idx]} alt={`Carrusel imagen ${idx + 1}`} />
     </div>
   );
 };
