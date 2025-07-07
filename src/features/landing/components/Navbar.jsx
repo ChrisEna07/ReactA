@@ -15,6 +15,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const isAdmin = useSelector(state => state.auth.isAdmin); // <-- Saber si es admin
 
   return (
     <nav className="navbar">
@@ -58,6 +59,12 @@ const Navbar = ({ cartCount, onCartClick }) => {
               <Link to="/#opiniones">Opiniones</Link>
             )}
           </li>
+          {/* Botón Dashboard solo visible si el admin está autenticado */}
+          {isAuthenticated && isAdmin && (
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+          )}
           <li>
             {isAuthenticated ? (
               <button

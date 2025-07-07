@@ -1,49 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../slices/authSlice';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../../shared/styles/Login.css';
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const { isAuthenticated, user, status } = useSelector((state) => state.auth);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
 
-    setLoading(true);
-
-    setTimeout(() => {
-      const storedEmail = localStorage.getItem('registeredEmail');
-      const storedPassword = localStorage.getItem('registeredPassword');
-
-      if (username === storedEmail && password === storedPassword) {
-        dispatch(loginUser({ username, password }));
-        setErrorMsg('');
-      } else {
-        setErrorMsg('Correo o contraseña incorrectos.');
-      }
-      setLoading(false);
-    }, 1200); // Simula carga de 1.2s
+    try {
+      await dispatch(loginUser({ username, password })).unwrap();
+    } catch (error) {
+      setErrorMsg('Correo o contraseña incorrectos.');
+    }
   };
 
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
-  if (loading) {
-    return (
-      <div className="login-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 300 }}>
-        <div className="loader"></div>
-        <span style={{ marginLeft: 16, fontSize: 18 }}>Iniciando sesión...</span>
-      </div>
-    );
-  }
+  useEffect(() => {
+    // Redirigir automáticamente después del login
+    if (isAuthenticated && user?.role === 'admin') {
+      navigate('/dashboard');
+    } else if (isAuthenticated && user?.role === 'user') {
+      navigate('/');
+    }
+  }, [isAuthenticated, user, navigate]);
 
   return (
     <div className="login-container">
@@ -67,8 +55,11 @@ const Login = () => {
         />
 
         {errorMsg && <span className="error">{errorMsg}</span>}
+        {status === 'loading' && <p style={{ color: '#1976d2' }}>Iniciando sesión...</p>}
 
-        <button type="submit">Iniciar sesión</button>
+        <button type="submit" disabled={status === 'loading'}>
+          Iniciar sesión
+        </button>
 
         <button
           type="button"
@@ -91,23 +82,6 @@ const Login = () => {
           ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
         </p>
       </form>
-      {/* Loader CSS */}
-      <style>
-        {`
-        .loader {
-          border: 4px solid #f3f3f3;
-          border-top: 4px solid #1976d2;
-          border-radius: 50%;
-          width: 32px;
-          height: 32px;
-          animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-          0% { transform: rotate(0deg);}
-          100% { transform: rotate(360deg);}
-        }
-        `}
-      </style>
     </div>
   );
 };

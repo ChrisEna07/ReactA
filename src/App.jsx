@@ -17,8 +17,12 @@ import ReviewForm from "./features/landing/components/ReviewForm";
 import ContactPage from "./features/landing/components/ContactPage";
 import Login from './features/auth/components/login';
 import Register from './features/auth/components/Register';
+import Dashboard from './features/auth/components/dashboard'; // <-- Importa tu dashboard
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from 'react-redux';
+
+// Si tienes un componente para proteger rutas de admin:
+import PrivateAdminRoute from '../../../FakeStore/Fake/src/features/auth/components/PrivateAdminRoute' // <-- Corrige la ruta aquí
 
 function cartReducer(state, action) {
   switch (action.type) {
@@ -77,12 +81,13 @@ function App() {
     }
   };
 
+  // Página principal
   const HomePage = () => (
     <div className="app-container">
       <Navbar onCartClick={() => setShowCart(true)} />
       <Carousel />
       <div className="main-content">
-        <h1>FakeStore Productos</h1>
+        <h1>Nuestros Productos Fake</h1>
         <select value={selectedCategory} onChange={handleCategoryChange}>
           <option value="">Todas las categorías</option>
           {categories.map(cat => (
@@ -108,9 +113,27 @@ function App() {
         <Route path="/contacto" element={<ContactPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        {/* Ruta protegida para el dashboard solo para admin */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateAdminRoute>
+              <Dashboard />
+            </PrivateAdminRoute>
+          }
+        />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
+// /*
+// -------------------------------
+// Bitácora de aprendizaje
+// -------------------------------
+// - Se agregó la ruta "/dashboard" al router principal para que el botón Dashboard funcione.
+// - Se protegió la ruta usando el componente PrivateAdminRoute, permitiendo acceso solo a administradores autenticados.
+// - Se importó el componente Dashboard y el protector de rutas.
+// - Aprendí cómo agregar rutas protegidas en React Router y cómo conectar la navegación de la app con los permisos
